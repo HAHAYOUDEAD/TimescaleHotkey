@@ -1,5 +1,4 @@
 ﻿global using static TimeScaleHotkey.Utility;
-using System.Reflection.Metadata.Ecma335;
 
 namespace TimeScaleHotkey
 {
@@ -7,14 +6,28 @@ namespace TimeScaleHotkey
     {
         public bool active = false;
         public bool active2 = false;
+        public bool reset = false;
 
         public override void OnInitializeMelon()
         {
             Settings.OnLoad();
         }
 
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
+        {
+            reset = true;
+        }
+
         public override void OnUpdate()
         {
+            if (reset)
+            {
+                Time.timeScale = (GameManager.m_GlobalTimeScale = 1f);
+                active = false;
+                active2 = false;
+                reset = false;
+            }
+
             if (Input.GetKeyDown(Settings.options.key))
             {
                 if (InterfaceManager.DetermineIfOverlayIsActive()) return;
@@ -44,7 +57,7 @@ namespace TimeScaleHotkey
                 if (active)
                 {
                     active = false;
-                    if (Settings.options.addAnotherKey && !active2) Time.timeScale = (GameManager.m_GlobalTimeScale = 1f);
+                    if ((Settings.options.addAnotherKey && !active2) || !Settings.options.addAnotherKey) Time.timeScale = (GameManager.m_GlobalTimeScale = 1f);
                 }
             }
 

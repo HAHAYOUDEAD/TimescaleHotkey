@@ -12,7 +12,7 @@ namespace TimeScaleHotkey
 {
     internal class Utility
     {
-        public const string modVersion = "1.0.0";
+        public const string modVersion = "1.0.1";
         public const string modName = "TimeScaleHotkey";
         public const string modAuthor = "Waltz";
         
